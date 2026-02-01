@@ -6,6 +6,7 @@
     <title>Dermavive | Clínica Estética & IA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     
     <style>
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
@@ -174,16 +175,36 @@
         </div>
     </footer>
 
-    <!-- MODAL RESERVA (FORMULARIO MANUAL) -->
-    <div id="booking-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 relative shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 text-2xl">&times;</button>
-            <h3 class="font-serif text-3xl mb-6">Agendar Cita</h3>
+    <!-- MODAL RESERVA (FORMULARIO CON CALENDARIO) -->
+    <div id="booking-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto py-8">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-8 relative shadow-2xl my-8">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 text-2xl transition-colors">&times;</button>
+            <h3 class="font-serif text-3xl mb-2">Agendar Cita</h3>
+            <p class="text-gray-500 text-sm mb-6">Selecciona fecha, hora y completa tus datos. La cita se agregará automáticamente al calendario.</p>
+            
             <form id="appointment-form" class="space-y-4">
-                <input type="text" id="form-name" required class="w-full bg-cream rounded-xl p-4 outline-none" placeholder="Tu Nombre">
-                <input type="tel" id="form-phone" required class="w-full bg-cream rounded-xl p-4 outline-none" placeholder="Tu WhatsApp">
-                <button type="submit" class="w-full bg-tan text-white font-bold py-4 rounded-xl">Enviar Solicitud</button>
+                <!-- Calendario -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Fecha y hora</label>
+                    <input type="text" id="form-datetime" required readonly class="w-full bg-cream rounded-xl p-4 outline-none cursor-pointer" placeholder="Selecciona fecha y hora">
+                </div>
+                <input type="hidden" id="form-date" name="date">
+                <input type="hidden" id="form-time" name="time">
+                
+                <input type="text" id="form-name" name="name" required class="w-full bg-cream rounded-xl p-4 outline-none" placeholder="Tu Nombre">
+                <input type="tel" id="form-phone" name="phone" required class="w-full bg-cream rounded-xl p-4 outline-none" placeholder="Tu WhatsApp">
+                <select id="form-treatment" name="treatment" class="w-full bg-cream rounded-xl p-4 outline-none text-gray-700">
+                    <option value="">Selecciona tratamiento</option>
+                    <option value="Faciales Avanzados">Faciales Avanzados</option>
+                    <option value="Remodelación Corporal">Remodelación Corporal</option>
+                    <option value="Láser Médico">Láser Médico</option>
+                    <option value="Consulta General">Consulta General</option>
+                </select>
+                <button type="submit" id="form-submit-btn" class="w-full bg-tan text-white font-bold py-4 rounded-xl hover:bg-tan/90 transition-colors">
+                    Confirmar y agregar a Google Calendar
+                </button>
             </form>
+            <iframe name="booking-frame" id="booking-frame" class="hidden"></iframe>
         </div>
     </div>
 
@@ -193,7 +214,12 @@
     </a>
 
     <!-- SCRIPTS DE NAVEGACIÓN -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script>
+        // URL de tu Google Apps Script (reemplaza después de desplegar)
+        const GOOGLE_CALENDAR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOCziU3nhhMQeXaTR4HylQmk0QXXtsqb2Y5JQKvvgryGoXnMTU82sn6Bj46bQB9pjz7w/exec'; // Ej: 'https://script.google.com/macros/s/AKfycbxxx.../exec'
+        
         function showPage(page) {
             const h = document.getElementById('home-page');
             const g = document.getElementById('galeria');
@@ -201,15 +227,101 @@
             g.classList.toggle('hidden-page', page !== 'gallery');
             window.scrollTo(0, 0);
         }
-        // Mostrar galería si se llega con #galeria en la URL
         if (window.location.hash === '#galeria') showPage('gallery');
-        function openModal() { document.getElementById('booking-modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('booking-modal').style.display = 'none'; }
+        
+        function openModal() { 
+            document.getElementById('booking-modal').style.display = 'flex'; 
+        }
+        function closeModal() { 
+            document.getElementById('booking-modal').style.display = 'none'; 
+        }
+        
+        // Calendario con Flatpickr (horario clínica: Lun-Vie 9:00-18:00, slots 30 min)
+        const fp = flatpickr('#form-datetime', {
+            enableTime: true,
+            dateFormat: 'd/m/Y H:i',
+            time_24hr: true,
+            locale: 'es',
+            minDate: 'today',
+            disable: [
+                function(date) { return date.getDay() === 0; } // Domingos
+            ],
+            minTime: '09:00',
+            maxTime: '18:00',
+            minuteIncrement: 30,
+            onChange: function(selectedDates) {
+                if (selectedDates[0]) {
+                    const d = selectedDates[0];
+                    document.getElementById('form-date').value = d.toISOString().split('T')[0];
+                    document.getElementById('form-time').value = d.toTimeString().slice(0,5);
+                }
+            }
+        });
+        
+        // Escuchar mensaje del iframe cuando Google Apps Script confirma la cita
+        window.addEventListener('message', function(e) {
+            if (e.data && e.data.type === 'booking_success') {
+                var btn = document.getElementById('form-submit-btn');
+                btn.disabled = false;
+                btn.textContent = 'Confirmar y agregar a Google Calendar';
+                alert('¡Cita agendada! Se ha agregado automáticamente a Google Calendar.');
+                closeModal();
+                document.getElementById('appointment-form').reset();
+                if (typeof fp !== 'undefined') fp.clear();
+            }
+        });
         
         document.getElementById('appointment-form').onsubmit = function(e) {
             e.preventDefault();
-            alert("¡Mensaje enviado! Te contactaremos pronto.");
-            closeModal();
+            const name = document.getElementById('form-name').value;
+            const phone = document.getElementById('form-phone').value;
+            const treatment = document.getElementById('form-treatment').value;
+            const date = document.getElementById('form-date').value;
+            const time = document.getElementById('form-time').value;
+            
+            if (!date || !time) {
+                alert('Por favor selecciona fecha y hora.');
+                return;
+            }
+            
+            if (GOOGLE_CALENDAR_SCRIPT_URL) {
+                // Enviar a Google Apps Script para agregar a Calendar automáticamente
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = GOOGLE_CALENDAR_SCRIPT_URL;
+                form.target = 'booking-frame';
+                form.style.display = 'none';
+                ['name','phone','treatment','date','time'].forEach(k => {
+                    const inp = document.createElement('input');
+                    inp.name = k;
+                    inp.value = {name,phone,treatment,date,time}[k];
+                    form.appendChild(inp);
+                });
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+                document.getElementById('form-submit-btn').disabled = true;
+                document.getElementById('form-submit-btn').textContent = 'Agendando...';
+                var submitBtn = document.getElementById('form-submit-btn');
+                setTimeout(function() {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Confirmar y agregar a Google Calendar';
+                }, 4000);
+            } else {
+                // Sin script configurado: abrir link "Agregar a Google Calendar"
+                const [y,m,d] = date.split('-');
+                const [h,min] = time.split(':');
+                const endH = String(parseInt(h,10) + 1).padStart(2,'0');
+                const start = `${y}${m}${d}T${h}${min}00`;
+                const end = `${y}${m}${d}T${endH}${min}00`;
+                const title = encodeURIComponent(`Cita Dermavive - ${treatment || 'Consulta'}`);
+                const details = encodeURIComponent(`Paciente: ${name}\nTel: ${phone}\nTratamiento: ${treatment || 'Consulta'}`);
+                const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${start}/${end}`;
+                window.open(url, '_blank', 'width=700,height=600');
+                alert('Se abrió Google Calendar. Haz clic en "Guardar" para confirmar la cita.');
+                closeModal();
+                document.getElementById('appointment-form').reset();
+            }
         };
     </script>
 
