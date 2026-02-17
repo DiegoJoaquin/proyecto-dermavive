@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dermavive | Clínica Estética & IA</title>
+    <title>Dermavive | Clínica Estética</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="icon" type="image/jpg" href="images/logo.jpg">
-    <meta name="google-site-verification" content="2UcfLSBx0WEVGC1wKMJpBYZHzXR1Qz30muFAB8KGHhQ" />
+    
     <style>
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         .font-serif { font-family: 'Playfair Display', serif; }
@@ -19,12 +18,14 @@
         .transition-soft { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .hidden-page { display: none; }
         
-        /* Ajuste para que el botón de WhatsApp no choque con el Chatbot de ElevenLabs */
         .whatsapp-float {
             position: fixed;
             bottom: 2rem;
-            left: 2rem; /* Movido a la izquierda */
+            right: 2rem;
             z-index: 90;
+        }
+        .treatment-card {
+            border: 1px solid rgba(159, 123, 97, 0.1);
         }
     </style>
 </head>
@@ -39,10 +40,10 @@
                 </div>
                 <div class="hidden md:flex space-x-10 items-center">
                     <a href="javascript:void(0)" onclick="showPage('home')" class="text-sm font-medium hover:text-tan transition-colors">Inicio</a>
-                    <a href="#galeria" onclick="showPage('gallery'); return false;" class="text-sm font-medium hover:text-tan transition-colors">Resultados</a>
-                    <button onclick="openModal()" class="bg-tan text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-soft">
-                        Agendar Manualmente
-                    </button>
+                    <a href="javascript:void(0)" onclick="showPage('gallery')" class="text-sm font-medium hover:text-tan transition-colors">Resultados</a>
+                    <a href="https://wa.me/56963559183?text=Hola!%20Me%20gustaría%20consultar%20por%20un%20tratamiento" target="_blank" class="bg-tan text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-soft shadow-lg shadow-tan/20">
+                        Agendar Cita
+                    </a>
                 </div>
             </div>
         </div>
@@ -54,281 +55,150 @@
             <div class="max-w-7xl mx-auto px-6 lg:px-12">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <span class="text-tan font-bold tracking-widest text-xs uppercase bg-tan/10 px-3 py-1 rounded-full">Tecnología & Belleza</span>
+                        <span class="text-tan font-bold tracking-widest text-xs uppercase bg-tan/10 px-3 py-1 rounded-full italic">Belleza Consciente</span>
                         <h1 class="font-serif text-5xl lg:text-7xl leading-tight text-gray-900 mt-4 mb-6">
-                            Tu nueva piel está a una <span class="italic text-tan">conversación</span> de distancia
+                            Revela tu mejor <br><span class="italic text-tan">versión</span>
                         </h1>
                         <p class="text-lg text-gray-600 mb-10 max-w-lg leading-relaxed">
-                            Más que estética, es el cuidado que te debes. Transforma tu bienestar con procedimientos no invasivos pensados para resaltar tu mejor versión, hoy y siempre.
+                            Más que estética, es el cuidado que te debes. Transforma tu bienestar con procedimientos pensados para resaltar tu luz propia.
                         </p>
-                        <div class="flex space-x-4">
-                            <button onclick="showPage('gallery')" class="bg-tan text-white px-8 py-4 rounded-full font-bold hover:shadow-xl transition-soft">
-                                Ver Antes y Después
-                            </button>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="#tratamientos" class="bg-tan text-white px-8 py-4 rounded-full font-bold hover:shadow-xl transition-soft text-center">
+                                Ver Tratamientos
+                            </a>
+                            <a href="https://wa.me/56963559183?text=Hola!%20Quiero%20una%20evaluación" target="_blank" class="border border-tan text-tan px-8 py-4 rounded-full font-bold hover:bg-tan-light transition-soft text-center">
+                                Evaluación WhatsApp
+                            </a>
                         </div>
                     </div>
                     <div class="relative">
                         <div class="aspect-[4/5] rounded-t-full overflow-hidden shadow-2xl">
-                            <img src="images/WhatsApp Image 2026-02-01 at 3.50.50 PM.jpeg" alt="Dermavive Clínica Estética" class="w-full h-full object-cover">
+                            <!-- He mantenido la referencia a tu imagen local -->
+                            <img src="images/WhatsApp Image 2026-02-01 at 3.50.50 PM.jpeg" alt="Dermavive" class="w-full h-full object-cover">
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Tratamientos Cards -->
-        <section class="py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-6 lg:px-12 grid md:grid-cols-3 gap-8">
-                <a href="tratamiento-faciales.html" class="block cursor-pointer group p-10 rounded-3xl bg-cream hover:bg-tan-light transition-soft">
-                    <h3 class="font-serif text-2xl mb-4">Faciales Avanzados</h3>
-                    <p class="text-gray-500 mb-6 italic">"Resultados que hablan por sí solos."</p>
-                    <span class="text-tan font-bold">Ver Galería →</span>
-                </a>
-                <a href="tratamiento-remodelacion.html" class="block cursor-pointer group p-10 rounded-3xl bg-cream hover:bg-tan-light transition-soft">
-                    <h3 class="font-serif text-2xl mb-4">Remodelación</h3>
-                    <p class="text-gray-500 mb-6 italic">"Tu cuerpo, esculpido con ciencia."</p>
-                    <span class="text-tan font-bold">Ver Galería →</span>
-                </a>
-                <a href="tratamiento-laser.html" class="block cursor-pointer group p-10 rounded-3xl bg-cream hover:bg-tan-light transition-soft">
-                    <h3 class="font-serif text-2xl mb-4">Láser Médico</h3>
-                    <p class="text-gray-500 mb-6 italic">"Piel suave y libre permanentemente."</p>
-                    <span class="text-tan font-bold">Ver Galería →</span>
-                </a>
+        <!-- SECCIÓN: TRATAMIENTOS AGRUPADOS -->
+        <section id="tratamientos" class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+                <div class="text-center mb-16">
+                    <h2 class="font-serif text-4xl lg:text-5xl text-gray-900 mb-4">Nuestra Carta de Servicios</h2>
+                    <p class="text-gray-500 italic">Resultados excepcionales, precios transparentes.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Grupo 1: Botox y Armonización -->
+                    <div class="treatment-card p-8 rounded-3xl bg-cream flex flex-col">
+                        <h3 class="font-serif text-2xl text-tan mb-6 border-b border-tan/20 pb-4">Botox & Tensores</h3>
+                        <ul class="space-y-4 mb-8 flex-grow">
+                            <li class="flex justify-between items-center"><span class="text-sm">Botox (1 a 3 zonas)</span> <span class="font-semibold text-xs">$70k - $170k</span></li>
+                            <li class="flex justify-between items-center"><span class="text-sm">Botox Fullface</span> <span class="font-semibold text-xs">$290.000</span></li>
+                            <li class="flex justify-between items-center"><span class="text-sm">Hilos Tensores (2-6 hilos)</span> <span class="font-semibold text-xs">$100k - $250k</span></li>
+                            <li class="flex justify-between items-center"><span class="text-sm">20 Hilos Revitalizantes</span> <span class="font-semibold text-xs">$150.000</span></li>
+                        </ul>
+                        <a href="https://wa.me/56963559183?text=Me%20interesa%20Botox%20o%20Hilos" class="text-center py-3 bg-tan text-white rounded-xl text-sm font-bold hover:bg-opacity-90 transition-soft">Consultar por WhatsApp</a>
+                    </div>
+
+                    <!-- Grupo 2: Rellenos y Bioestimulación -->
+                    <div class="treatment-card p-8 rounded-3xl bg-cream flex flex-col shadow-sm">
+                        <h3 class="font-serif text-2xl text-tan mb-6 border-b border-tan/20 pb-4">Rellenos & Bioestimulación</h3>
+                        <ul class="space-y-4 mb-8 flex-grow">
+                            <li class="flex justify-between items-center"><span class="text-sm">Ácido Hialurónico (Clásico/Prem)</span> <span class="font-semibold text-xs">$150k - $200k</span></li>
+                            <li class="flex justify-between items-center"><span class="text-sm">Rinolips (Classic/Premium)</span> <span class="font-semibold text-xs">$270k - $350k</span></li>
+                            <li class="flex justify-between items-center"><span class="text-sm">Bioestimuladores (Novuma/Cientific)</span> <span class="font-semibold text-xs">$230k - $390k</span></li>
+                            <li class="flex justify-between items-center"><span class="text-sm">Bioest. HarmonyCa</span> <span class="font-semibold text-xs">$400.000</span></li>
+                        </ul>
+                        <a href="https://wa.me/56963559183?text=Me%20interesa%20Rellenos%20o%20Bioestimuladores" class="text-center py-3 bg-tan text-white rounded-xl text-sm font-bold hover:bg-opacity-90 transition-soft">Consultar por WhatsApp</a>
+                    </div>
+
+                    <!-- Grupo 3: Cuidado Facial y Nutrición -->
+                    <div class="treatment-card p-8 rounded-3xl bg-cream flex flex-col">
+                        <h3 class="font-serif text-2xl text-tan mb-6 border-b border-tan/20 pb-4">Nutrición & Cuidado</h3>
+                        <ul class="space-y-4 mb-8 flex-grow">
+                            <li class="flex justify-between items-center"><span class="text-sm">ADN de Salmón (Sesión/Pack)</span> <span class="font-semibold text-xs">$180k - $450k</span></li>
+                            <li class="flex justify-between items-center"><span class="text-sm">Cóctel Vitaminas (Sesión/Pack)</span> <span class="font-semibold text-xs">$60k - $150k</span></li>
+                            <li class="flex justify-between items-center"><span class="text-sm">Pack Limpieza, Peeling & Vit.</span> <span class="font-semibold text-xs">$100.000</span></li>
+                            <li class="flex justify-between items-center"><span class="text-sm">Quemador de Grasa (Sesión/Pack)</span> <span class="font-semibold text-xs">$60k - $150k</span></li>
+                        </ul>
+                        <a href="https://wa.me/56963559183?text=Me%20interesa%20Cuidado%20Facial%20o%20Nutrición" class="text-center py-3 bg-tan text-white rounded-xl text-sm font-bold hover:bg-opacity-90 transition-soft">Consultar por WhatsApp</a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
     <!-- SECCIÓN: GALERÍA -->
-    <section id="galeria" class="hidden-page pt-32 pb-20 px-6 lg:px-12 max-w-7xl mx-auto">
-        <button onclick="showPage('home')" class="text-tan mb-8 flex items-center font-bold">
+    <section id="gallery-page" class="hidden-page pt-32 pb-20 px-6 lg:px-12 max-w-7xl mx-auto">
+        <button onclick="showPage('home')" class="text-tan mb-8 flex items-center font-bold hover:underline">
             ← Volver al inicio
         </button>
         <h2 class="font-serif text-4xl mb-12">Nuestros Casos de Éxito</h2>
         <div class="grid md:grid-cols-2 gap-10">
-            <div class="rounded-3xl overflow-hidden shadow-xl">
+            <!-- Mantenemos tus referencias de imágenes de resultados -->
+            <div class="rounded-3xl overflow-hidden shadow-xl bg-white border border-gray-100">
                 <div class="flex">
                     <img src="images/Captura de pantalla 2026-02-01 162955.png" class="w-1/2 h-64 object-cover grayscale" alt="Antes">
                     <img src="images/Captura de pantalla 2026-02-01 162955.png" class="w-1/2 h-64 object-cover border-l-4 border-white" alt="Después">
                 </div>
-                <div class="p-6 bg-white"><p class="font-bold">Tratamiento Anti-edad - 3 Sesiones</p></div>
+                <div class="p-6"><p class="font-bold text-gray-700">Tratamiento Anti-edad Facial</p></div>
             </div>
-            <div class="rounded-3xl overflow-hidden shadow-xl">
+            <div class="rounded-3xl overflow-hidden shadow-xl bg-white border border-gray-100">
                 <div class="flex">
                     <img src="images/Captura de pantalla 2026-02-01 163145.png" class="w-1/2 h-64 object-cover grayscale" alt="Antes">
                     <img src="images/Captura de pantalla 2026-02-01 163145.png" class="w-1/2 h-64 object-cover border-l-4 border-white" alt="Después">
                 </div>
-                <div class="p-6 bg-white"><p class="font-bold">Control de Acné Juvenil - 2 Sesiones</p></div>
-            </div>
-            <div class="rounded-3xl overflow-hidden shadow-xl">
-                <div class="flex">
-                    <img src="images/Captura de pantalla 2026-02-01 163156.png" class="w-1/2 h-64 object-cover grayscale" alt="Antes">
-                    <img src="images/Captura de pantalla 2026-02-01 163156.png" class="w-1/2 h-64 object-cover border-l-4 border-white" alt="Después">
-                </div>
-                <div class="p-6 bg-white"><p class="font-bold">Rejuvenecimiento Facial - 4 Sesiones</p></div>
-            </div>
-            <div class="rounded-3xl overflow-hidden shadow-xl">
-                <div class="flex">
-                    <img src="images/Captura de pantalla 2026-02-01 163202.png" class="w-1/2 h-64 object-cover grayscale" alt="Antes">
-                    <img src="images/Captura de pantalla 2026-02-01 163202.png" class="w-1/2 h-64 object-cover border-l-4 border-white" alt="Después">
-                </div>
-                <div class="p-6 bg-white"><p class="font-bold">Hidratación Intensa - 5 Sesiones</p></div>
-            </div>
-            <div class="rounded-3xl overflow-hidden shadow-xl">
-                <div class="flex">
-                    <img src="images/Captura de pantalla 2026-02-01 163209.png" class="w-1/2 h-64 object-cover grayscale" alt="Antes">
-                    <img src="images/Captura de pantalla 2026-02-01 163209.png" class="w-1/2 h-64 object-cover border-l-4 border-white" alt="Después">
-                </div>
-                <div class="p-6 bg-white"><p class="font-bold">Limpieza Profunda - 2 Sesiones</p></div>
+                <div class="p-6"><p class="font-bold text-gray-700">Control de Acné & Textura</p></div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER: Contacto -->
+    <!-- FOOTER -->
     <footer class="bg-white border-t border-gray-100 py-16">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 items-start">
                 <div>
                     <span class="font-serif text-2xl font-bold text-tan block mb-4">Dermavive</span>
-                    <p class="text-gray-500 text-sm leading-relaxed">Clínica estética con tecnología de vanguardia y enfoque personalizado.</p>
+                    <p class="text-gray-500 text-sm leading-relaxed">Excelencia en medicina estética avanzada y bienestar integral en Concepción.</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-sm uppercase tracking-widest text-gray-900 mb-4">Dirección</h4>
-                    <p class="text-gray-600">Ohiggins 65<br>Concepción</p>
+                    <p class="text-gray-600">Ohiggins 65<br>Concepción, Chile</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-sm uppercase tracking-widest text-gray-900 mb-4">Contacto</h4>
-                    <a href="tel:+56963559183" class="block text-gray-600 hover:text-tan transition-colors mb-3">+56 9 6355 9183</a>
-                    <a href="https://wa.me/56963559183" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#20bd5a] transition-soft">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                        Escribir por WhatsApp
-                    </a>
+                    <a href="https://wa.me/56963559183" target="_blank" class="text-tan font-bold block mb-2">+56 9 6355 9183</a>
+                    <p class="text-xs text-gray-400">Atención Lunes a Sábado</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-sm uppercase tracking-widest text-gray-900 mb-4">Síguenos</h4>
-                    <a href="https://www.instagram.com/clinica_estetica_dermavive" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 text-white flex items-center justify-center hover:scale-110 transition-soft shadow-lg">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </a>
+                    <h4 class="font-bold text-sm uppercase tracking-widest text-gray-900 mb-4">Redes Sociales</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/clinica_estetica_dermavive" target="_blank" class="w-10 h-10 rounded-full bg-tan-light flex items-center justify-center text-tan hover:bg-tan hover:text-white transition-soft">IG</a>
+                    </div>
                 </div>
             </div>
             <div class="border-t border-gray-100 mt-12 pt-8 text-center">
-                <p class="text-gray-400 text-xs">&copy; 2026 Dermavive Clínica Estética. Todos los derechos reservados.</p>
+                <p class="text-gray-400 text-xs">&copy; 2026 Dermavive Clínica Estética.</p>
             </div>
         </div>
     </footer>
 
-    <!-- MODAL RESERVA (FORMULARIO CON CALENDARIO) -->
-    <div id="booking-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto py-8">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 relative shadow-2xl my-8">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 text-2xl transition-colors">&times;</button>
-            <h3 class="font-serif text-3xl mb-2">Agendar Cita</h3>
-            <p class="text-gray-500 text-sm mb-6">Selecciona fecha, hora y completa tus datos. La cita se agregará automáticamente al calendario.</p>
-            
-            <form id="appointment-form" class="space-y-4">
-                <!-- Calendario -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Fecha y hora</label>
-                    <input type="text" id="form-datetime" required readonly class="w-full bg-cream rounded-xl p-4 outline-none cursor-pointer" placeholder="Selecciona fecha y hora">
-                </div>
-                <input type="hidden" id="form-date" name="date">
-                <input type="hidden" id="form-time" name="time">
-                
-                <input type="text" id="form-name" name="name" required class="w-full bg-cream rounded-xl p-4 outline-none" placeholder="Tu Nombre">
-                <input type="tel" id="form-phone" name="phone" required class="w-full bg-cream rounded-xl p-4 outline-none" placeholder="Tu WhatsApp">
-                <select id="form-treatment" name="treatment" class="w-full bg-cream rounded-xl p-4 outline-none text-gray-700">
-                    <option value="">Selecciona tratamiento</option>
-                    <option value="Faciales Avanzados">Faciales Avanzados</option>
-                    <option value="Remodelación Corporal">Remodelación Corporal</option>
-                    <option value="Láser Médico">Láser Médico</option>
-                    <option value="Consulta General">Consulta General</option>
-                </select>
-                <button type="submit" id="form-submit-btn" class="w-full bg-tan text-white font-bold py-4 rounded-xl hover:bg-tan/90 transition-colors">
-                    Confirmar y agregar a Google Calendar
-                </button>
-            </form>
-            <iframe name="booking-frame" id="booking-frame" class="hidden"></iframe>
-        </div>
-    </div>
-
-    <!-- WhatsApp Floating Button (LADO IZQUIERDO) -->
+    <!-- WhatsApp Floating Button (AHORA A LA DERECHA) -->
     <a href="https://wa.me/56963559183" target="_blank" rel="noopener noreferrer" class="whatsapp-float bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-soft">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     </a>
 
-    <!-- SCRIPTS DE NAVEGACIÓN -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <!-- SCRIPTS DE NAVEGACIÓN SIMPLE -->
     <script>
-        // URL de tu Google Apps Script (reemplaza después de desplegar)
-        const GOOGLE_CALENDAR_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOCziU3nhhMQeXaTR4HylQmk0QXXtsqb2Y5JQKvvgryGoXnMTU82sn6Bj46bQB9pjz7w/exec'; // Ej: 'https://script.google.com/macros/s/AKfycbxxx.../exec'
-        
         function showPage(page) {
             const h = document.getElementById('home-page');
-            const g = document.getElementById('galeria');
+            const g = document.getElementById('gallery-page');
             h.classList.toggle('hidden-page', page !== 'home');
             g.classList.toggle('hidden-page', page !== 'gallery');
             window.scrollTo(0, 0);
         }
-        if (window.location.hash === '#galeria') showPage('gallery');
-        
-        function openModal() { 
-            document.getElementById('booking-modal').style.display = 'flex'; 
-        }
-        function closeModal() { 
-            document.getElementById('booking-modal').style.display = 'none'; 
-        }
-        
-        // Calendario con Flatpickr (horario clínica: Lun-Vie 9:00-18:00, slots 30 min)
-        const fp = flatpickr('#form-datetime', {
-            enableTime: true,
-            dateFormat: 'd/m/Y H:i',
-            time_24hr: true,
-            locale: 'es',
-            minDate: 'today',
-            disable: [
-                function(date) { return date.getDay() === 0; } // Domingos
-            ],
-            minTime: '09:00',
-            maxTime: '18:00',
-            minuteIncrement: 30,
-            onChange: function(selectedDates) {
-                if (selectedDates[0]) {
-                    const d = selectedDates[0];
-                    document.getElementById('form-date').value = d.toISOString().split('T')[0];
-                    document.getElementById('form-time').value = d.toTimeString().slice(0,5);
-                }
-            }
-        });
-        
-        // Escuchar mensaje del iframe cuando Google Apps Script confirma la cita
-        window.addEventListener('message', function(e) {
-            if (e.data && e.data.type === 'booking_success') {
-                var btn = document.getElementById('form-submit-btn');
-                btn.disabled = false;
-                btn.textContent = 'Confirmar y agregar a Google Calendar';
-                alert('¡Cita agendada! Se ha agregado automáticamente a Google Calendar.');
-                closeModal();
-                document.getElementById('appointment-form').reset();
-                if (typeof fp !== 'undefined') fp.clear();
-            }
-        });
-        
-        document.getElementById('appointment-form').onsubmit = function(e) {
-            e.preventDefault();
-            const name = document.getElementById('form-name').value;
-            const phone = document.getElementById('form-phone').value;
-            const treatment = document.getElementById('form-treatment').value;
-            const date = document.getElementById('form-date').value;
-            const time = document.getElementById('form-time').value;
-            
-            if (!date || !time) {
-                alert('Por favor selecciona fecha y hora.');
-                return;
-            }
-            
-            if (GOOGLE_CALENDAR_SCRIPT_URL) {
-                // Enviar a Google Apps Script para agregar a Calendar automáticamente
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = GOOGLE_CALENDAR_SCRIPT_URL;
-                form.target = 'booking-frame';
-                form.style.display = 'none';
-                ['name','phone','treatment','date','time'].forEach(k => {
-                    const inp = document.createElement('input');
-                    inp.name = k;
-                    inp.value = {name,phone,treatment,date,time}[k];
-                    form.appendChild(inp);
-                });
-                document.body.appendChild(form);
-                form.submit();
-                document.body.removeChild(form);
-                document.getElementById('form-submit-btn').disabled = true;
-                document.getElementById('form-submit-btn').textContent = 'Agendando...';
-                var submitBtn = document.getElementById('form-submit-btn');
-                setTimeout(function() {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Confirmar y agregar a Google Calendar';
-                }, 4000);
-            } else {
-                // Sin script configurado: abrir link "Agregar a Google Calendar"
-                const [y,m,d] = date.split('-');
-                const [h,min] = time.split(':');
-                const endH = String(parseInt(h,10) + 1).padStart(2,'0');
-                const start = `${y}${m}${d}T${h}${min}00`;
-                const end = `${y}${m}${d}T${endH}${min}00`;
-                const title = encodeURIComponent(`Cita Dermavive - ${treatment || 'Consulta'}`);
-                const details = encodeURIComponent(`Paciente: ${name}\nTel: ${phone}\nTratamiento: ${treatment || 'Consulta'}`);
-                const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${start}/${end}`;
-                window.open(url, '_blank', 'width=700,height=600');
-                alert('Se abrió Google Calendar. Haz clic en "Guardar" para confirmar la cita.');
-                closeModal();
-                document.getElementById('appointment-form').reset();
-            }
-        };
     </script>
-
-    <!-- WIDGET DE ELEVENLABS (CONVAI) -->
-    <elevenlabs-convai agent-id="agent_7401kgd0z4nre609x9mqt26hqxdh"></elevenlabs-convai>
-    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-
 </body>
 </html>
