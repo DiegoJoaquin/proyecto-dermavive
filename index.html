@@ -1,221 +1,614 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dermavive | Clínica Estética</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/jpg" href="images/logo.jpg">
-    
-    <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .font-serif { font-family: 'Playfair Display', serif; }
-        .bg-cream { background-color: #FDFBF7; }
-        .text-tan { color: #9F7B61; }
-        .bg-tan { background-color: #9F7B61; }
-        .bg-tan-light { background-color: #F4EBE2; }
-        .transition-soft { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .hidden-page { display: none; }
-        
-        .whatsapp-float {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 90;
-        }
-        .treatment-card {
-            border: 1px solid rgba(159, 123, 97, 0.1);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dermavive | Clínica Estética — Dra. Melissa Díaz</title>
+  <meta name="description" content="Clínica de medicina estética avanzada en Concepción. Tratamientos faciales, botox, rellenos, bioestimuladores y más. Dra. Melissa Díaz.">
+  <link rel="icon" type="image/jpg" href="images/logo.jpg">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-cream text-gray-800">
+<body>
 
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 cursor-pointer flex items-center gap-3" onclick="showPage('home')">
-                    <img src="images/logo.jpg" alt="Logo Dermavive" class="w-12 h-12 object-contain rounded-full">
-                    <span class="font-serif text-2xl font-bold tracking-tight text-tan">Dermavive</span>
-                </div>
-                <div class="hidden md:flex space-x-10 items-center">
-                    <a href="javascript:void(0)" onclick="showPage('home')" class="text-sm font-medium hover:text-tan transition-colors">Inicio</a>
-                    <a href="javascript:void(0)" onclick="showPage('gallery')" class="text-sm font-medium hover:text-tan transition-colors">Resultados</a>
-                    <a href="https://wa.me/56963559183?text=Hola!%20Me%20gustaría%20consultar%20por%20un%20tratamiento" target="_blank" class="bg-tan text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-soft shadow-lg shadow-tan/20">
-                        Agendar Cita
-                    </a>
-                </div>
-            </div>
+  <!-- ══════════════════ NAVBAR ══════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="#inicio" class="navbar__logo">
+        <img src="images/logo.jpg" alt="Dermavive Clínica Integral">
+      </a>
+
+      <div class="navbar__links">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#resultados">Resultados</a>
+        <a href="#doctora">Dra. Meli</a>
+        <a href="#agenda">Agenda</a>
+      </div>
+
+      <div class="navbar__cta">
+        <a href="https://www.instagram.com/clinica_estetica_dermavive" target="_blank" class="btn btn-outline" style="padding:10px 20px;font-size:0.75rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram
+        </a>
+        <a href="https://wa.me/56963559183?text=Hola!%20Me%20gustaría%20agendar%20una%20cita" target="_blank" class="btn btn-negro" style="padding:10px 20px;font-size:0.75rem;">
+          Agendar
+        </a>
+      </div>
+
+      <button class="navbar__hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav overlay -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav__close" id="mobileNavClose" aria-label="Cerrar">✕</button>
+    <a href="#inicio"     onclick="closeMobileNav()">Inicio</a>
+    <a href="#servicios"  onclick="closeMobileNav()">Servicios</a>
+    <a href="#resultados" onclick="closeMobileNav()">Resultados</a>
+    <a href="#doctora"    onclick="closeMobileNav()">Dra. Meli</a>
+    <a href="#agenda"     onclick="closeMobileNav()">Agenda</a>
+    <div style="display:flex;gap:12px;margin-top:16px;">
+      <a href="https://wa.me/56963559183" target="_blank" class="btn btn-negro">WhatsApp</a>
+      <a href="https://www.instagram.com/clinica_estetica_dermavive" target="_blank" class="btn btn-rosa">Instagram</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════ HERO ══════════════════ -->
+  <section class="hero" id="inicio">
+    <img
+      src="images/logo.jpg"
+      alt="Dermavive Clínica Integral"
+      class="hero__logo"
+    >
+
+    <h1 class="hero__tagline serif">
+      Tu belleza es <em>nuestra</em><br>especialidad
+    </h1>
+
+    <p class="hero__sub">
+      Medicina estética avanzada en Concepción.<br>
+      Resultados reales, tratamientos personalizados.
+    </p>
+
+    <div class="hero__ctas">
+      <a
+        href="https://wa.me/56963559183?text=Hola!%20Quiero%20agendar%20una%20cita%20en%20Dermavive"
+        target="_blank"
+        class="btn btn-negro"
+        id="hero-wsp-btn"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Agendar por WhatsApp
+      </a>
+
+      <a
+        href="https://www.instagram.com/clinica_estetica_dermavive"
+        target="_blank"
+        class="hero__ig-badge"
+        id="hero-ig-btn"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Ver en Instagram
+      </a>
+    </div>
+
+    <div class="hero__scroll">
+      <span>Explorar</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+  </section>
+
+  <!-- ══════════════════ STATS ══════════════════ -->
+  <div class="stats-banner">
+    <div class="stats-banner__inner">
+      <div class="stat">
+        <div class="stat__num serif">+2</div>
+        <div class="stat__label">Años de experiencia</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat__num serif">500+</div>
+        <div class="stat__label">Pacientes atendidas</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat__num serif">100%</div>
+        <div class="stat__label">Procedimientos seguros</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat__num serif">★ 5.0</div>
+        <div class="stat__label">Satisfacción de clientes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ SERVICIOS ══════════════════ -->
+  <section class="section" id="servicios">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__label">Carta de Servicios</span>
+        <h2 class="section__title serif">
+          Tratamientos diseñados<br><em>para ti</em>
+        </h2>
+        <p class="section__desc">
+          Cada procedimiento es personalizado según tus necesidades, con técnicas de vanguardia y los mejores productos del mercado.
+        </p>
+      </div>
+
+      <div class="servicios__grid">
+        <!-- Card 1 -->
+        <div class="servicio-card reveal">
+          <span class="servicio-card__icon">✦</span>
+          <h3 class="servicio-card__titulo serif">Botox & Tensores</h3>
+          <ul class="servicio-card__lista">
+            <li>Botox (1 a 3 zonas)</li>
+            <li>Botox Fullface</li>
+            <li>Hilos Tensores (2 – 6 hilos)</li>
+            <li>20 Hilos Revitalizantes</li>
+            <li>Bruxismo con Botox</li>
+          </ul>
+          <a href="https://wa.me/56963559183?text=Hola!%20Me%20interesa%20información%20sobre%20Botox%20o%20Hilos%20Tensores"
+             target="_blank" class="servicio-card__cta" id="cta-botox">
+            Consultar por WhatsApp
+          </a>
         </div>
-    </nav>
 
-    <main id="home-page" class="transition-soft">
-        <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-            <div class="max-w-7xl mx-auto px-6 lg:px-12">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <span class="text-tan font-bold tracking-widest text-xs uppercase bg-tan/10 px-3 py-1 rounded-full italic">Belleza Consciente</span>
-                        <h1 class="font-serif text-5xl lg:text-7xl leading-tight text-gray-900 mt-4 mb-6">
-                            Revela tu mejor <br><span class="italic text-tan">versión</span>
-                        </h1>
-                        <p class="text-lg text-gray-600 mb-10 max-w-lg leading-relaxed">
-                            Más que estética, es el cuidado que te debes. Transforma tu bienestar con procedimientos pensados para resaltar tu luz propia.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <a href="#tratamientos" class="bg-tan text-white px-8 py-4 rounded-full font-bold hover:shadow-xl transition-soft text-center">
-                                Ver Tratamientos
-                            </a>
-                            <a href="https://wa.me/56963559183?text=Hola!%20Quiero%20una%20evaluación" target="_blank" class="border border-tan text-tan px-8 py-4 rounded-full font-bold hover:bg-tan-light transition-soft text-center">
-                                Evaluación WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                    <div class="relative">
-                        <div class="aspect-[4/5] rounded-t-full overflow-hidden shadow-2xl">
-                            <img src="images/WhatsApp Image 2026-02-01 at 3.50.50 PM.jpeg" alt="Dermavive" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-20 bg-white border-t border-gray-100">
-            <div class="max-w-7xl mx-auto px-6 lg:px-12">
-                <div class="grid md:grid-cols-2 gap-16 items-center">
-                    <div class="rounded-3xl overflow-hidden shadow-xl aspect-[4/5] bg-gray-100">
-                        <img src="images/melimeli.jpeg" alt="Dra. Melissa Díaz" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <span class="text-tan font-bold uppercase tracking-wider text-sm mb-2 block">Dirección Médica</span>
-                        <h2 class="font-serif text-4xl lg:text-5xl mb-6 text-gray-900">Dra. Melissa Díaz</h2>
-                        <p class="text-gray-600 mb-6 leading-relaxed text-lg">
-                            Con más de 2 años de experiencia en medicina estética, la Dra. Meli lidera nuestro equipo. Su enfoque se centra en realzar la belleza natural de cada paciente, priorizando la seguridad y resultados armoniosos mediante técnicas vanguardistas.
-                        </p>
-                        <ul class="space-y-4 text-gray-600 mb-8">
-                            <li class="flex items-center gap-3">
-                                <div class="w-6 h-6 rounded-full bg-tan-light text-tan flex items-center justify-center flex-shrink-0">✓</div>
-                                <span>Odontóloga de la Universidad Andres Bello.</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <div class="w-6 h-6 rounded-full bg-tan-light text-tan flex items-center justify-center flex-shrink-0">✓</div>
-                                <span>Certificación avanzada en inyectables y armonización facial.</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <div class="w-6 h-6 rounded-full bg-tan-light text-tan flex items-center justify-center flex-shrink-0">✓</div>
-                                <span>Miembro activo de la Sociedad Chilena de Medicina Estética.</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="tratamientos" class="py-24 bg-cream">
-            <div class="max-w-7xl mx-auto px-6 lg:px-12">
-                <div class="text-center mb-16">
-                    <h2 class="font-serif text-4xl lg:text-5xl text-gray-900 mb-4">Nuestra Carta de Servicios</h2>
-                    <p class="text-gray-500 italic">Resultados excepcionales, precios transparentes.</p>
-                </div>
-
-                <div class="grid lg:grid-cols-3 gap-8">
-                    <div class="treatment-card p-8 rounded-3xl bg-white flex flex-col">
-                        <h3 class="font-serif text-2xl text-tan mb-6 border-b border-tan/20 pb-4">Botox & Tensores</h3>
-                        <ul class="space-y-4 mb-8 flex-grow">
-                            <li class="flex justify-between items-center"><span class="text-sm">Botox (1 a 3 zonas)</span> 
-                            <li class="flex justify-between items-center"><span class="text-sm">Botox Fullface</span> 
-                            <li class="flex justify-between items-center"><span class="text-sm">Hilos Tensores (2-6 hilos)
-                            <li class="flex justify-between items-center"><span class="text-sm">20 Hilos Revitalizantes</span> 
-                        </ul>
-                        <a href="https://wa.me/56963559183?text=Me%20interesa%20Botox%20o%20Hilos" class="text-center py-3 bg-tan text-white rounded-xl text-sm font-bold hover:bg-opacity-90 transition-soft">Consultar por WhatsApp</a>
-                    </div>
-
-                    <div class="treatment-card p-8 rounded-3xl bg-white flex flex-col shadow-sm">
-                        <h3 class="font-serif text-2xl text-tan mb-6 border-b border-tan/20 pb-4">Rellenos & Bioestimulación</h3>
-                        <ul class="space-y-4 mb-8 flex-grow">
-                            <li class="flex justify-between items-center"><span class="text-sm">Ácido Hialurónico (Clásico/Prem)</span> 
-                            <li class="flex justify-between items-center"><span class="text-sm">Rinolips (Classic/Premium)</span> 
-                            <li class="flex justify-between items-center"><span class="text-sm">Bioestimuladores (Novuma/Cientific)</span> 
-                            <li class="flex justify-between items-center"><span class="text-sm">Bioest. HarmonyCa</span> 
-                        </ul>
-                        <a href="https://wa.me/56963559183?text=Me%20interesa%20Rellenos%20o%20Bioestimuladores" class="text-center py-3 bg-tan text-white rounded-xl text-sm font-bold hover:bg-opacity-90 transition-soft">Consultar por WhatsApp</a>
-                    </div>
-
-                    <div class="treatment-card p-8 rounded-3xl bg-white flex flex-col">
-                        <h3 class="font-serif text-2xl text-tan mb-6 border-b border-tan/20 pb-4">Nutrición & Cuidado</h3>
-                        <ul class="space-y-4 mb-8 flex-grow">
-                            <li class="flex justify-between items-center"><span class="text-sm">ADN de Salmón (Sesión/Pack)</span> 
-                            <li class="flex justify-between items-center"><span class="text-sm">Cóctel Vitaminas (Sesión/Pack)</span> 
-                            <li class="flex justify-between items-center"><span class="text-sm">Pack Limpieza, Peeling & Vit.</span>
-                            <li class="flex justify-between items-center"><span class="text-sm">Quemador de Grasa (Sesión/Pack)</span>
-                        </ul>
-                        <a href="https://wa.me/56963559183?text=Me%20interesa%20Cuidado%20Facial%20o%20Nutrición" class="text-center py-3 bg-tan text-white rounded-xl text-sm font-bold hover:bg-opacity-90 transition-soft">Consultar por WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <section id="gallery-page" class="hidden-page pt-32 pb-20 px-6 lg:px-12 max-w-7xl mx-auto">
-        <button onclick="showPage('home')" class="text-tan mb-8 flex items-center font-bold hover:underline">
-            ← Volver al inicio
-        </button>
-        <h2 class="font-serif text-4xl mb-12">Nuestros Casos de Éxito</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-            
-            <div class="rounded-3xl overflow-hidden shadow-xl bg-white border border-gray-100">
-                <img src="images/Captura de pantalla 2026-02-01 162955.png" class="w-full h-80 object-cover" alt="Resultado Tratamiento Anti-edad">
-                <div class="p-6"><p class="font-bold text-gray-700">Tratamiento Anti-edad Facial</p></div>
-            </div>
-            
-            <div class="rounded-3xl overflow-hidden shadow-xl bg-white border border-gray-100">
-                <img src="images/Captura de pantalla 2026-02-01 163145.png" class="w-full h-80 object-cover" alt="Resultado Control de Acné">
-                <div class="p-6"><p class="font-bold text-gray-700">Control de Acné & Textura</p></div>
-            </div>
-
-            </div>
-    </section>
-
-    <footer class="bg-white border-t border-gray-100 py-16">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 items-start">
-                <div>
-                    <span class="font-serif text-2xl font-bold text-tan block mb-4">Dermavive</span>
-                    <p class="text-gray-500 text-sm leading-relaxed">Excelencia en medicina estética avanzada y bienestar integral en Concepción.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-sm uppercase tracking-widest text-gray-900 mb-4">Dirección</h4>
-                    <p class="text-gray-600">Ohiggins 65<br>Concepción, Chile</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-sm uppercase tracking-widest text-gray-900 mb-4">Contacto</h4>
-                    <a href="https://wa.me/56963559183" target="_blank" class="text-tan font-bold block mb-2">+56 9 6355 9183</a>
-                    <p class="text-xs text-gray-400">Atención Lunes a Sábado</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-sm uppercase tracking-widest text-gray-900 mb-4">Redes Sociales</h4>
-                    <div class="flex space-x-4">
-                        <a href="https://www.instagram.com/clinica_estetica_dermavive" target="_blank" class="w-10 h-10 rounded-full bg-tan-light flex items-center justify-center text-tan hover:bg-tan hover:text-white transition-soft">IG</a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-100 mt-12 pt-8 text-center">
-                <p class="text-gray-400 text-xs">&copy; 2026 Dermavive Clínica Estética.</p>
-            </div>
+        <!-- Card 2 -->
+        <div class="servicio-card reveal">
+          <span class="servicio-card__icon">◈</span>
+          <h3 class="servicio-card__titulo serif">Rellenos & Bioestimulación</h3>
+          <ul class="servicio-card__lista">
+            <li>Ácido Hialurónico (Clásico / Premium)</li>
+            <li>Rinolips (Classic / Premium)</li>
+            <li>Bioestimuladores (Novuma / Cientific)</li>
+            <li>Bioestimulador HarmonyCa</li>
+            <li>Armonización Facial</li>
+          </ul>
+          <a href="https://wa.me/56963559183?text=Hola!%20Me%20interesa%20información%20sobre%20Rellenos%20o%20Bioestimuladores"
+             target="_blank" class="servicio-card__cta" id="cta-rellenos">
+            Consultar por WhatsApp
+          </a>
         </div>
-    </footer>
 
-    <a href="https://wa.me/56963559183" target="_blank" rel="noopener noreferrer" class="whatsapp-float bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-soft">
-        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    </a>
+        <!-- Card 3 -->
+        <div class="servicio-card reveal">
+          <span class="servicio-card__icon">❋</span>
+          <h3 class="servicio-card__titulo serif">Nutrición & Cuidado</h3>
+          <ul class="servicio-card__lista">
+            <li>ADN de Salmón (Sesión / Pack)</li>
+            <li>Cóctel de Vitaminas (Sesión / Pack)</li>
+            <li>Pack Limpieza, Peeling & Vitaminas</li>
+            <li>Quemador de Grasa (Sesión / Pack)</li>
+            <li>Skinbooster</li>
+          </ul>
+          <a href="https://wa.me/56963559183?text=Hola!%20Me%20interesa%20información%20sobre%20Nutrición%20y%20Cuidado%20Facial"
+             target="_blank" class="servicio-card__cta" id="cta-nutricion">
+            Consultar por WhatsApp
+          </a>
+        </div>
 
-    <script>
-        function showPage(page) {
-            const h = document.getElementById('home-page');
-            const g = document.getElementById('gallery-page');
-            h.classList.toggle('hidden-page', page !== 'home');
-            g.classList.toggle('hidden-page', page !== 'gallery');
-            window.scrollTo(0, 0);
+        <!-- Card 4 -->
+        <div class="servicio-card reveal">
+          <span class="servicio-card__icon">◉</span>
+          <h3 class="servicio-card__titulo serif">Faciales & Láser</h3>
+          <ul class="servicio-card__lista">
+            <li>Limpieza Facial Profunda</li>
+            <li>Peeling Químico</li>
+            <li>Láser Fraccionado</li>
+            <li>Radiofrecuencia</li>
+            <li>Dermapen</li>
+          </ul>
+          <a href="https://wa.me/56963559183?text=Hola!%20Me%20interesa%20información%20sobre%20Faciales%20y%20Láser"
+             target="_blank" class="servicio-card__cta" id="cta-faciales">
+            Consultar por WhatsApp
+          </a>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="servicio-card reveal">
+          <span class="servicio-card__icon">◇</span>
+          <h3 class="servicio-card__titulo serif">Remodelación Corporal</h3>
+          <ul class="servicio-card__lista">
+            <li>Reducción de Medidas</li>
+            <li>Tratamiento Anticelulítico</li>
+            <li>Lipólisis con Ultrasonido</li>
+            <li>Drenaje Linfático</li>
+            <li>Presoterapia</li>
+          </ul>
+          <a href="https://wa.me/56963559183?text=Hola!%20Me%20interesa%20información%20sobre%20Remodelación%20Corporal"
+             target="_blank" class="servicio-card__cta" id="cta-corporal">
+            Consultar por WhatsApp
+          </a>
+        </div>
+
+        <!-- Card 6 CTA especial -->
+        <div class="servicio-card reveal" style="background:var(--negro);border-color:var(--negro);justify-content:center;align-items:center;text-align:center;gap:24px;">
+          <span class="servicio-card__icon" style="font-size:3rem;color:var(--rosa-palo);">✿</span>
+          <h3 class="servicio-card__titulo serif" style="color:var(--blanco);border-color:rgba(255,255,255,0.1);">¿No sabes qué<br><em style="color:var(--rosa-palo)">tratamiento elegir?</em></h3>
+          <p style="font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.7;">Escríbenos y la Dra. Meli te orientará sin compromiso.</p>
+          <a href="https://wa.me/56963559183?text=Hola!%20Necesito%20orientación%20sobre%20qué%20tratamiento%20es%20mejor%20para%20mí"
+             target="_blank" class="btn btn-rosa" id="cta-orientacion"
+             style="margin-top:8px;width:100%;justify-content:center;">
+            Pedir Orientación
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ ANTES / DESPUÉS ══════════════════ -->
+  <section class="galeria-section" id="resultados">
+    <div class="container">
+      <div class="section__header reveal section--negro">
+        <span class="section__label">Casos Reales</span>
+        <h2 class="section__title serif" style="color:var(--blanco);">
+          Resultados que <em>hablan</em><br>por sí solos
+        </h2>
+        <p class="section__desc">
+          Cada transformación es única. Estos son algunos de los resultados reales de nuestras pacientes.
+        </p>
+      </div>
+    </div>
+
+    <div class="carrusel-wrapper">
+      <div class="carrusel" id="carrusel">
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 162955.png" alt="Resultado Rhinoplastia con Relleno" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Rinomodelación</span>
+            <p>Ácido Hialurónico · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163145.png" alt="Resultado Botox Frente" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Botox Fullface</span>
+            <p>Toxina Botulínica · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163156.png" alt="Resultado Tratamiento" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Armonización Facial</span>
+            <p>Tratamiento combinado · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163202.png" alt="Resultado Tratamiento" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Bioestimulación</span>
+            <p>ADN de Salmón · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163209.png" alt="Resultado Tratamiento" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Relleno de Labios</span>
+            <p>Ácido Hialurónico Premium · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163215.png" alt="Resultado Tratamiento" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Hilos Tensores</span>
+            <p>Lifting sin cirugía · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163222.png" alt="Resultado Tratamiento" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Peeling Químico</span>
+            <p>Renovación celular · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163231.png" alt="Resultado Tratamiento" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Skinbooster</span>
+            <p>Hidratación profunda · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163238.png" alt="Resultado Tratamiento" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Cóctel de Vitaminas</span>
+            <p>Nutrición facial · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163244.png" alt="Resultado Tratamiento" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Rinomodelación</span>
+            <p>Sin cirugía · Dra. Meli</p>
+          </div>
+        </div>
+
+        <div class="carrusel__item">
+          <img src="images/Captura de pantalla 2026-02-01 163251.png" alt="Resultado Tratamiento" class="carrusel__img">
+          <div class="carrusel__caption">
+            <span>Armonización Facial</span>
+            <p>Resultado natural · Dra. Meli</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="carrusel__nav">
+        <button class="carrusel__btn" id="prevBtn" aria-label="Anterior">&#8592;</button>
+        <button class="carrusel__btn" id="nextBtn" aria-label="Siguiente">&#8594;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ DRA. MELISSA ══════════════════ -->
+  <section class="doctora-section" id="doctora">
+    <div class="container">
+      <div class="doctora__grid">
+
+        <div class="doctora__foto-wrap reveal">
+          <img
+            src="images/melimeli.jpeg"
+            alt="Dra. Melissa Díaz — Clínica Estética Dermavive"
+            class="doctora__foto"
+          >
+          <div class="doctora__badge">
+            <p>Especialista en</p>
+            <strong>Medicina<br>Estética</strong>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <span class="doctora__label">Dirección Médica</span>
+          <h2 class="doctora__nombre serif">
+            Dra. Melissa<br><em>Díaz</em>
+          </h2>
+          <p class="doctora__bio">
+            Con más de 2 años de experiencia en medicina estética, la Dra. Meli lidera nuestra clínica con un enfoque centrado en realzar la belleza natural de cada paciente. Su filosofía se basa en resultados armoniosos, técnicas vanguardistas y la máxima seguridad en cada procedimiento.
+          </p>
+
+          <div class="doctora__creds">
+            <div class="doctora__cred">
+              <div class="doctora__cred-icon">🎓</div>
+              <span class="doctora__cred-text">Odontóloga de la Universidad Andrés Bello</span>
+            </div>
+            <div class="doctora__cred">
+              <div class="doctora__cred-icon">💉</div>
+              <span class="doctora__cred-text">Certificación avanzada en inyectables y armonización facial</span>
+            </div>
+            <div class="doctora__cred">
+              <div class="doctora__cred-icon">🏥</div>
+              <span class="doctora__cred-text">Miembro activo de la Sociedad Chilena de Medicina Estética</span>
+            </div>
+            <div class="doctora__cred">
+              <div class="doctora__cred-icon">✦</div>
+              <span class="doctora__cred-text">Especialista certificada en Bioestimuladores y Técnicas de relleno avanzadas</span>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <a href="https://wa.me/56963559183?text=Hola!%20Quisiera%20una%20evaluación%20con%20la%20Dra.%20Melissa"
+               target="_blank" class="btn btn-negro" id="dra-wsp-btn">
+              Agendar Evaluación
+            </a>
+            <a href="https://www.instagram.com/clinica_estetica_dermavive"
+               target="_blank" class="btn btn-outline" id="dra-ig-btn">
+              Ver Instagram
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ CTA / AGENDA ══════════════════ -->
+  <section class="cta-section" id="agenda">
+    <div class="container" style="position:relative;z-index:1;">
+      <span class="section__label" style="color:rgba(255,255,255,0.4);border-color:rgba(255,255,255,0.15);">Reserva tu hora</span>
+      <h2 class="cta__titulo serif">
+        Tu próxima cita<br><em>te está esperando</em>
+      </h2>
+      <p class="cta__sub">
+        Escríbenos o síguenos en Instagram para ver más resultados y coordinar tu tratamiento.
+      </p>
+
+      <div class="cta__btns">
+        <a
+          href="https://wa.me/56963559183?text=Hola!%20Quiero%20agendar%20una%20cita%20en%20Clínica%20Dermavive"
+          target="_blank"
+          class="btn btn-rosa"
+          id="agenda-wsp-btn"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Agendar por WhatsApp
+        </a>
+        <a
+          href="https://www.instagram.com/clinica_estetica_dermavive"
+          target="_blank"
+          class="btn btn-outline-blanco"
+          id="agenda-ig-btn"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Seguir en Instagram
+        </a>
+      </div>
+
+      <div class="cta__info">
+        <div class="cta__info-item">
+          <p>Dirección</p>
+          <span>O'Higgins 65, Concepción</span>
+        </div>
+        <div class="cta__info-item">
+          <p>Teléfono</p>
+          <a href="https://wa.me/56963559183" target="_blank">+56 9 6355 9183</a>
+        </div>
+        <div class="cta__info-item">
+          <p>Horario</p>
+          <span>Lunes a Sábado</span>
+        </div>
+        <div class="cta__info-item">
+          <p>Instagram</p>
+          <a href="https://www.instagram.com/clinica_estetica_dermavive" target="_blank">@clinica_estetica_dermavive</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ FOOTER ══════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <img src="images/logo.jpg" alt="Dermavive" class="footer__logo">
+          <p class="footer__desc">
+            Excelencia en medicina estética avanzada. Resultados naturales y seguros en Concepción, Chile.
+          </p>
+        </div>
+
+        <div class="footer__col">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#resultados">Resultados</a></li>
+            <li><a href="#doctora">Dra. Meli</a></li>
+            <li><a href="#agenda">Agendar</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Tratamientos</h4>
+          <ul>
+            <li><span>Botox & Tensores</span></li>
+            <li><span>Rellenos & Bioestimulación</span></li>
+            <li><span>Nutrición Facial</span></li>
+            <li><span>Faciales & Láser</span></li>
+            <li><span>Remodelación Corporal</span></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="https://wa.me/56963559183" target="_blank">+56 9 6355 9183</a></li>
+            <li><span>O'Higgins 65, Concepción</span></li>
+            <li><span>Lunes a Sábado</span></li>
+          </ul>
+          <div class="footer__social" style="margin-top:20px;">
+            <a href="https://www.instagram.com/clinica_estetica_dermavive" target="_blank" class="footer__social-btn" aria-label="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://wa.me/56963559183" target="_blank" class="footer__social-btn" aria-label="WhatsApp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>&copy; 2026 Dermavive Clínica Estética — Todos los derechos reservados</p>
+        <a href="admin.html" class="footer__admin-link">·</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════ WHATSAPP FLOAT ══════════════════ -->
+  <a
+    href="https://wa.me/56963559183?text=Hola!%20Me%20gustaría%20consultar%20sobre%20un%20tratamiento"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="whatsapp-float"
+    id="whatsapp-float"
+    aria-label="WhatsApp"
+  >
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- ══════════════════ SCRIPTS ══════════════════ -->
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav  = document.getElementById('mobileNav');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+
+    hamburger.addEventListener('click', () => {
+      mobileNav.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    mobileNavClose.addEventListener('click', closeMobileNav);
+
+    // Carrusel drag & buttons
+    const carrusel = document.getElementById('carrusel');
+    const prevBtn  = document.getElementById('prevBtn');
+    const nextBtn  = document.getElementById('nextBtn');
+
+    const scrollAmt = 340;
+    nextBtn.addEventListener('click', () => carrusel.scrollBy({ left: scrollAmt, behavior: 'smooth' }));
+    prevBtn.addEventListener('click', () => carrusel.scrollBy({ left: -scrollAmt, behavior: 'smooth' }));
+
+    // Drag scroll
+    let isDown = false, startX, scrollLeft;
+    carrusel.addEventListener('mousedown', e => {
+      isDown = true; carrusel.classList.add('active');
+      startX = e.pageX - carrusel.offsetLeft;
+      scrollLeft = carrusel.scrollLeft;
+    });
+    carrusel.addEventListener('mouseleave', () => { isDown = false; carrusel.classList.remove('active'); });
+    carrusel.addEventListener('mouseup',    () => { isDown = false; carrusel.classList.remove('active'); });
+    carrusel.addEventListener('mousemove',  e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carrusel.offsetLeft;
+      carrusel.scrollLeft = scrollLeft - (x - startX) * 1.5;
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
         }
-    </script>
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          closeMobileNav();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>

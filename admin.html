@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Administrativo — Dermavive</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/jpg" href="images/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blanco: #FFFFFF;
+      --negro:  #0D0D0D;
+      --rosa:   #F2C4CE;
+      --rosa-s: #FAE8EC;
+      --gris-f: #F5F5F5;
+      --gris-m: #E5E5E5;
+      --gris-t: #6B7280;
+      --verde:  #10B981;
+      --rojo:   #EF4444;
+      --azul:   #3B82F6;
+      --amber:  #F59E0B;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gris-f);
+      color: var(--negro);
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN ── */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--negro);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .login-box {
+      background: var(--blanco);
+      border-radius: 24px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-box img {
+      height: 60px;
+      margin: 0 auto 24px;
+      object-fit: contain;
+    }
+    .login-box h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .login-box p {
+      font-size: 0.875rem;
+      color: var(--gris-t);
+      margin-bottom: 32px;
+    }
+    .login-input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1.5px solid var(--gris-m);
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 16px;
+      text-align: center;
+      letter-spacing: 0.2em;
+    }
+    .login-input:focus { border-color: var(--negro); }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--negro);
+      color: var(--blanco);
+      border: none;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .login-btn:hover { opacity: 0.85; }
+    .login-error {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: var(--rojo);
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    /* ── LAYOUT ── */
+    .app { display: none; min-height: 100vh; }
+    .app.visible { display: flex; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--negro);
+      color: var(--blanco);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 50;
+    }
+    .sidebar__logo {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .sidebar__logo img {
+      height: 44px;
+      filter: brightness(10);
+      object-fit: contain;
+    }
+    .sidebar__subtitle {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 6px;
+    }
+    .sidebar__nav {
+      padding: 20px 12px;
+      flex: 1;
+    }
+    .sidebar__nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: all 0.2s;
+      margin-bottom: 4px;
+      cursor: pointer;
+    }
+    .sidebar__nav a:hover,
+    .sidebar__nav a.active {
+      background: rgba(255,255,255,0.07);
+      color: var(--blanco);
+    }
+    .sidebar__nav a.active {
+      background: rgba(242,196,206,0.12);
+      color: var(--rosa);
+    }
+    .sidebar__nav .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+
+    .sidebar__footer {
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .sidebar__footer button {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .sidebar__footer button:hover { color: var(--rosa); }
+
+    /* Main */
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 32px;
+      min-height: 100vh;
+    }
+
+    /* Top bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .topbar h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+    }
+    .topbar-actions { display: flex; gap: 12px; }
+
+    /* Tabs */
+    .tab { display: none; }
+    .tab.active { display: block; }
+
+    /* Stats cards */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--blanco);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--gris-m);
+    }
+    .stat-card__label {
+      font-size: 0.75rem;
+      color: var(--gris-t);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .stat-card__num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.25rem;
+      font-weight: 400;
+      line-height: 1;
+    }
+    .stat-card__icon {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-primary   { background: var(--negro); color: var(--blanco); }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-rosa      { background: var(--rosa); color: var(--negro); }
+    .btn-rosa:hover { opacity: 0.85; }
+    .btn-ghost     { background: var(--gris-f); color: var(--negro); border: 1px solid var(--gris-m); }
+    .btn-ghost:hover { background: var(--gris-m); }
+    .btn-verde     { background: #DCFCE7; color: #166534; }
+    .btn-verde:hover { background: #BBF7D0; }
+    .btn-sm { padding: 7px 14px; font-size: 0.75rem; }
+
+    /* Card */
+    .card {
+      background: var(--blanco);
+      border-radius: 16px;
+      border: 1px solid var(--gris-m);
+      overflow: hidden;
+    }
+    .card__header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--gris-m);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .card__header h2 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .card__body { padding: 0; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gris-t);
+      padding: 12px 20px;
+      text-align: left;
+      background: var(--gris-f);
+      border-bottom: 1px solid var(--gris-m);
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--gris-m);
+      transition: background 0.15s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--gris-f); }
+    tbody td {
+      padding: 14px 20px;
+      font-size: 0.875rem;
+      color: var(--negro);
+      vertical-align: middle;
+    }
+    .td-secondary { color: var(--gris-t); font-size: 0.8rem; }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .badge-verde  { background: #DCFCE7; color: #166534; }
+    .badge-amber  { background: #FEF3C7; color: #92400E; }
+    .badge-rojo   { background: #FEE2E2; color: #991B1B; }
+    .badge-azul   { background: #DBEAFE; color: #1E40AF; }
+    .badge-rosa   { background: var(--rosa-s); color: #9D174D; }
+
+    /* Form */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--negro);
+    }
+    input, select, textarea {
+      padding: 10px 14px;
+      border: 1.5px solid var(--gris-m);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      background: var(--blanco);
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--negro); }
+    textarea { resize: vertical; min-height: 80px; }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      display: none;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--blanco);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal__header {
+      padding: 24px 28px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--gris-m);
+    }
+    .modal__header h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .modal__close {
+      width: 32px; height: 32px;
+      border: none; background: var(--gris-f);
+      border-radius: 50%; cursor: pointer;
+      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal__body { padding: 24px 28px; }
+    .modal__footer {
+      padding: 16px 28px 24px;
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    /* Mensajes WSP panel */
+    .wsp-template {
+      background: var(--gris-f);
+      border: 1px solid var(--gris-m);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .wsp-template__icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .wsp-template__content { flex: 1; }
+    .wsp-template__name {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--negro);
+      margin-bottom: 4px;
+    }
+    .wsp-template__text {
+      font-size: 0.8rem;
+      color: var(--gris-t);
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .wsp-template__actions { display: flex; gap: 8px; flex-shrink: 0; margin-top: 2px; }
+
+    /* Avatar initials */
+    .avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--rosa-s);
+      color: #9D174D;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border: 1.5px solid var(--gris-m);
+      border-radius: 10px;
+      background: var(--blanco);
+    }
+    .search-bar input {
+      border: none;
+      outline: none;
+      font-size: 0.875rem;
+      width: 200px;
+      padding: 0;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--gris-t);
+    }
+    .empty-state svg { width: 48px; height: 48px; opacity: 0.3; margin: 0 auto 16px; }
+    .empty-state p { font-size: 0.9rem; }
+
+    @media (max-width: 1024px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; padding: 20px 16px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════ LOGIN ══════ -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <img src="images/logo.jpg" alt="Dermavive">
+      <h1>Panel Administrativo</h1>
+      <p>Ingresa la contraseña de acceso</p>
+      <input
+        type="password"
+        id="passwordInput"
+        class="login-input"
+        placeholder="• • • • • • • •"
+        autocomplete="current-password"
+        onkeydown="if(event.key==='Enter')doLogin()"
+      >
+      <button class="login-btn" onclick="doLogin()">Ingresar</button>
+      <p class="login-error" id="loginError">Contraseña incorrecta. Intenta nuevamente.</p>
+    </div>
+  </div>
+
+  <!-- ══════ APP ══════ -->
+  <div class="app" id="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar__logo">
+        <img src="images/logo.jpg" alt="Dermavive">
+        <div class="sidebar__subtitle">Panel Administrativo</div>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a onclick="showTab('dashboard')" class="active" id="nav-dashboard">
+          <span class="nav-icon">📊</span> Dashboard
+        </a>
+        <a onclick="showTab('clientes')" id="nav-clientes">
+          <span class="nav-icon">👤</span> Clientes
+        </a>
+        <a onclick="showTab('mensajes')" id="nav-mensajes">
+          <span class="nav-icon">💬</span> Mensajes WhatsApp
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <button onclick="doLogout()">⬅ Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+
+      <!-- ───── TAB: DASHBOARD ───── -->
+      <div class="tab active" id="tab-dashboard">
+        <div class="topbar">
+          <div>
+            <h1>Dashboard</h1>
+            <p style="font-size:0.8rem;color:var(--gris-t);margin-top:4px;" id="fecha-hoy"></p>
+          </div>
+          <div class="topbar-actions">
+            <a href="index.html" class="btn btn-ghost" style="text-decoration:none;">← Ver sitio</a>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-card__icon">👥</div>
+            <div class="stat-card__label">Total clientes</div>
+            <div class="stat-card__num" id="stat-total">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon">🌸</div>
+            <div class="stat-card__label">Este mes</div>
+            <div class="stat-card__num" id="stat-mes">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon">📅</div>
+            <div class="stat-card__label">Esta semana</div>
+            <div class="stat-card__num" id="stat-semana">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon">⭐</div>
+            <div class="stat-card__label">Tratamiento top</div>
+            <div class="stat-card__num" style="font-size:1rem;margin-top:4px;" id="stat-top">—</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h2>Clientes recientes</h2>
+            <button class="btn btn-primary" onclick="showTab('clientes')">Ver todos</button>
+          </div>
+          <div class="card__body table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Tratamiento</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="recent-tbody">
+                <tr><td colspan="4"><div class="empty-state"><p>Sin registros aún</p></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── TAB: CLIENTES ───── -->
+      <div class="tab" id="tab-clientes">
+        <div class="topbar">
+          <h1>Clientes</h1>
+          <div class="topbar-actions">
+            <div class="search-bar">
+              <span>🔍</span>
+              <input type="text" placeholder="Buscar cliente..." id="search-input" oninput="renderTable()">
+            </div>
+            <button class="btn btn-primary" onclick="openModal()">+ Nuevo Cliente</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h2>Registro de clientes</h2>
+            <span id="count-badge" class="badge badge-azul">0 registros</span>
+          </div>
+          <div class="card__body table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Tratamiento</th>
+                  <th>Teléfono</th>
+                  <th>Correo</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="clientes-tbody">
+                <tr><td colspan="7"><div class="empty-state"><p>Sin clientes registrados. Agrega el primero.</p></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── TAB: MENSAJES ───── -->
+      <div class="tab" id="tab-mensajes">
+        <div class="topbar">
+          <h1>Mensajes WhatsApp</h1>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+
+          <!-- Templates predeterminados -->
+          <div>
+            <div class="card" style="margin-bottom:24px;">
+              <div class="card__header"><h2>📋 Templates de mensaje</h2></div>
+              <div class="card__body" style="padding:20px;">
+                <p style="font-size:0.8rem;color:var(--gris-t);margin-bottom:16px;">
+                  Selecciona un cliente de la tabla y usa estos botones para generar el mensaje listo para enviar.
+                </p>
+
+                <div class="wsp-template">
+                  <span class="wsp-template__icon">✅</span>
+                  <div class="wsp-template__content">
+                    <div class="wsp-template__name">Confirmación de pago</div>
+                    <div class="wsp-template__text">
+                      "¡Hola [Nombre]! 🌸 Confirmamos la recepción de tu pago. Tu cita en Clínica Dermavive está agendada. ¡Te esperamos!"
+                    </div>
+                  </div>
+                </div>
+
+                <div class="wsp-template">
+                  <span class="wsp-template__icon">💆</span>
+                  <div class="wsp-template__content">
+                    <div class="wsp-template__name">Seguimiento 24h post-tratamiento</div>
+                    <div class="wsp-template__text">
+                      "¡Hola [Nombre]! 💕 Han pasado 24 horas desde tu tratamiento. ¿Cómo te estás sintiendo? Recuerda seguir los cuidados indicados. Ante cualquier consulta, estamos aquí. — Dra. Meli"
+                    </div>
+                  </div>
+                </div>
+
+                <div class="wsp-template">
+                  <span class="wsp-template__icon">📅</span>
+                  <div class="wsp-template__content">
+                    <div class="wsp-template__name">Recordatorio de cita</div>
+                    <div class="wsp-template__text">
+                      "¡Hola [Nombre]! 🌺 Te recordamos que mañana tienes tu cita en Clínica Dermavive. ¡Te esperamos! Ante cualquier cambio, avísanos con anticipación."
+                    </div>
+                  </div>
+                </div>
+
+                <div class="wsp-template">
+                  <span class="wsp-template__icon">🌟</span>
+                  <div class="wsp-template__content">
+                    <div class="wsp-template__name">Invitación a reseña</div>
+                    <div class="wsp-template__text">
+                      "¡Hola [Nombre]! 💛 Esperamos que estés encantada con tu resultado. Si tienes un momento, nos encantaría que compartieras tu experiencia en Instagram. ¡Tu opinión es muy importante para nosotras! — Dra. Meli"
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enviar mensaje a cliente -->
+          <div>
+            <div class="card">
+              <div class="card__header"><h2>📲 Enviar mensaje</h2></div>
+              <div class="card__body" style="padding:20px;">
+                <div class="form-group" style="margin-bottom:16px;">
+                  <label>Seleccionar cliente</label>
+                  <select id="msg-cliente-select">
+                    <option value="">— Selecciona un cliente —</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom:16px;">
+                  <label>Template de mensaje</label>
+                  <select id="msg-template-select">
+                    <option value="pago">✅ Confirmación de pago</option>
+                    <option value="seguimiento">💆 Seguimiento 24h post-tratamiento</option>
+                    <option value="recordatorio">📅 Recordatorio de cita</option>
+                    <option value="resena">🌟 Invitación a reseña</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom:20px;">
+                  <label>Vista previa del mensaje</label>
+                  <textarea id="msg-preview" rows="5" readonly style="background:var(--gris-f);color:var(--gris-t);"></textarea>
+                </div>
+                <button class="btn btn-verde" style="width:100%;justify-content:center;" onclick="enviarWSP()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  Abrir WhatsApp con este mensaje
+                </button>
+                <p style="font-size:0.75rem;color:var(--gris-t);text-align:center;margin-top:10px;">
+                  Se abrirá WhatsApp Web con el mensaje listo para enviar.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══════ MODAL: NUEVO / EDITAR CLIENTE ══════ -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal__header">
+        <h3 id="modal-title">Nuevo Cliente</h3>
+        <button class="modal__close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal__body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="f-nombre">Nombre completo *</label>
+            <input type="text" id="f-nombre" placeholder="Ej: María González">
+          </div>
+          <div class="form-group">
+            <label for="f-tel">Teléfono *</label>
+            <input type="tel" id="f-tel" placeholder="+56 9 0000 0000">
+          </div>
+          <div class="form-group">
+            <label for="f-correo">Correo electrónico</label>
+            <input type="email" id="f-correo" placeholder="correo@ejemplo.com">
+          </div>
+          <div class="form-group">
+            <label for="f-fecha">Fecha de atención *</label>
+            <input type="date" id="f-fecha">
+          </div>
+          <div class="form-group full">
+            <label for="f-tratamiento">Tratamiento *</label>
+            <select id="f-tratamiento">
+              <option value="">— Seleccionar —</option>
+              <option>Botox (1 a 3 zonas)</option>
+              <option>Botox Fullface</option>
+              <option>Hilos Tensores</option>
+              <option>20 Hilos Revitalizantes</option>
+              <option>Ácido Hialurónico Clásico</option>
+              <option>Ácido Hialurónico Premium</option>
+              <option>Rinolips Classic</option>
+              <option>Rinolips Premium</option>
+              <option>Bioestimulador Novuma</option>
+              <option>Bioestimulador Cientific</option>
+              <option>Bioestimulador HarmonyCa</option>
+              <option>ADN de Salmón (sesión)</option>
+              <option>ADN de Salmón (pack)</option>
+              <option>Cóctel de Vitaminas (sesión)</option>
+              <option>Cóctel de Vitaminas (pack)</option>
+              <option>Pack Limpieza + Peeling + Vitaminas</option>
+              <option>Quemador de Grasa (sesión)</option>
+              <option>Quemador de Grasa (pack)</option>
+              <option>Skinbooster</option>
+              <option>Limpieza Facial</option>
+              <option>Peeling Químico</option>
+              <option>Láser Fraccionado</option>
+              <option>Radiofrecuencia</option>
+              <option>Dermapen</option>
+              <option>Remodelación Corporal</option>
+              <option>Bruxismo con Botox</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-estado">Estado del pago</label>
+            <select id="f-estado">
+              <option value="pagado">Pagado ✅</option>
+              <option value="pendiente">Pendiente ⏳</option>
+              <option value="reservado">Reservado 📅</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label for="f-notas">Notas adicionales</label>
+            <textarea id="f-notas" placeholder="Observaciones, alergias, indicaciones especiales..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarCliente()" id="modal-save-btn">Guardar Cliente</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── CONTRASEÑA ──
+    // IMPORTANTE: Cambia esta contraseña antes de publicar
+    const CONTRASENA = 'dermavive2026';
+    let editingId = null;
+
+    function doLogin() {
+      const val = document.getElementById('passwordInput').value;
+      if (val === CONTRASENA) {
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('app').classList.add('visible');
+        init();
+      } else {
+        document.getElementById('loginError').classList.add('show');
+        document.getElementById('passwordInput').value = '';
+      }
+    }
+
+    function doLogout() {
+      document.getElementById('loginOverlay').style.display = 'flex';
+      document.getElementById('app').classList.remove('visible');
+      document.getElementById('passwordInput').value = '';
+      document.getElementById('loginError').classList.remove('show');
+    }
+
+    // ── TABS ──
+    function showTab(name) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.sidebar__nav a').forEach(a => a.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      document.getElementById('nav-' + name).classList.add('active');
+      if (name === 'clientes') renderTable();
+      if (name === 'dashboard') renderDashboard();
+      if (name === 'mensajes') renderMsgClientes();
+    }
+
+    // ── STORAGE ──
+    function getClientes() {
+      return JSON.parse(localStorage.getItem('dermavive_clientes') || '[]');
+    }
+    function saveClientes(arr) {
+      localStorage.setItem('dermavive_clientes', JSON.stringify(arr));
+    }
+
+    // ── INIT ──
+    function init() {
+      const hoy = new Date();
+      document.getElementById('fecha-hoy').textContent =
+        hoy.toLocaleDateString('es-CL', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+      document.getElementById('f-fecha').value = hoy.toISOString().split('T')[0];
+      renderDashboard();
+      renderTable();
+    }
+
+    // ── DASHBOARD ──
+    function renderDashboard() {
+      const clientes = getClientes();
+      document.getElementById('stat-total').textContent = clientes.length;
+
+      const hoy = new Date();
+      const mesActual = hoy.getMonth();
+      const anio = hoy.getFullYear();
+      const inicioSemana = new Date(hoy);
+      inicioSemana.setDate(hoy.getDate() - hoy.getDay());
+
+      const esteMes = clientes.filter(c => {
+        const f = new Date(c.fecha);
+        return f.getMonth() === mesActual && f.getFullYear() === anio;
+      }).length;
+
+      const estaSemana = clientes.filter(c => {
+        const f = new Date(c.fecha);
+        return f >= inicioSemana;
+      }).length;
+
+      document.getElementById('stat-mes').textContent = esteMes;
+      document.getElementById('stat-semana').textContent = estaSemana;
+
+      // Tratamiento top
+      const freq = {};
+      clientes.forEach(c => { freq[c.tratamiento] = (freq[c.tratamiento] || 0) + 1; });
+      const top = Object.entries(freq).sort((a,b) => b[1]-a[1])[0];
+      document.getElementById('stat-top').textContent = top
+        ? top[0].split(' ').slice(0,2).join(' ')
+        : '—';
+
+      // Recientes
+      const tbody = document.getElementById('recent-tbody');
+      const recientes = [...clientes].sort((a,b) => new Date(b.fecha) - new Date(a.fecha)).slice(0, 5);
+      if (recientes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><p>Sin registros aún</p></div></td></tr>';
+      } else {
+        tbody.innerHTML = recientes.map(c => `
+          <tr>
+            <td>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar">${initials(c.nombre)}</div>
+                <div>
+                  <div style="font-weight:500;">${c.nombre}</div>
+                  <div class="td-secondary">${c.tel}</div>
+                </div>
+              </div>
+            </td>
+            <td>${c.tratamiento}</td>
+            <td>${formatFecha(c.fecha)}</td>
+            <td>${estadoBadge(c.estado)}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    // ── TABLA CLIENTES ──
+    function renderTable() {
+      const clientes = getClientes();
+      const q = (document.getElementById('search-input')?.value || '').toLowerCase();
+      const filtered = clientes.filter(c =>
+        c.nombre.toLowerCase().includes(q) ||
+        c.tratamiento.toLowerCase().includes(q) ||
+        (c.correo || '').toLowerCase().includes(q)
+      );
+
+      document.getElementById('count-badge').textContent = filtered.length + ' registros';
+
+      const tbody = document.getElementById('clientes-tbody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><p>${clientes.length === 0 ? 'Sin clientes aún. Agrega el primero.' : 'Sin resultados.'}</p></div></td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = [...filtered].sort((a,b) => new Date(b.fecha)-new Date(a.fecha)).map(c => `
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="avatar">${initials(c.nombre)}</div>
+              <div>
+                <div style="font-weight:500;">${c.nombre}</div>
+                ${c.notas ? `<div class="td-secondary" title="${c.notas}">📝 Con notas</div>` : ''}
+              </div>
+            </div>
+          </td>
+          <td>${c.tratamiento}</td>
+          <td><a href="https://wa.me/${c.tel.replace(/\D/g,'')}" target="_blank" style="color:var(--negro);font-weight:500;">${c.tel}</a></td>
+          <td class="td-secondary">${c.correo || '—'}</td>
+          <td>${formatFecha(c.fecha)}</td>
+          <td>${estadoBadge(c.estado)}</td>
+          <td>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-ghost btn-sm" onclick="editCliente('${c.id}')">✏️ Editar</button>
+              <button class="btn btn-ghost btn-sm" style="color:var(--rojo);" onclick="deleteCliente('${c.id}')">🗑</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // ── MODAL CLIENTES ──
+    function openModal(id = null) {
+      editingId = id;
+      document.getElementById('modal-title').textContent = id ? 'Editar Cliente' : 'Nuevo Cliente';
+      document.getElementById('modal-save-btn').textContent = id ? 'Guardar Cambios' : 'Guardar Cliente';
+
+      if (id) {
+        const c = getClientes().find(x => x.id === id);
+        if (c) {
+          document.getElementById('f-nombre').value = c.nombre;
+          document.getElementById('f-tel').value = c.tel;
+          document.getElementById('f-correo').value = c.correo || '';
+          document.getElementById('f-fecha').value = c.fecha;
+          document.getElementById('f-tratamiento').value = c.tratamiento;
+          document.getElementById('f-estado').value = c.estado;
+          document.getElementById('f-notas').value = c.notas || '';
+        }
+      } else {
+        document.getElementById('f-nombre').value = '';
+        document.getElementById('f-tel').value = '';
+        document.getElementById('f-correo').value = '';
+        document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
+        document.getElementById('f-tratamiento').value = '';
+        document.getElementById('f-estado').value = 'pagado';
+        document.getElementById('f-notas').value = '';
+      }
+      document.getElementById('modalBackdrop').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.remove('open');
+      editingId = null;
+    }
+
+    document.getElementById('modalBackdrop').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+
+    function guardarCliente() {
+      const nombre = document.getElementById('f-nombre').value.trim();
+      const tel    = document.getElementById('f-tel').value.trim();
+      const fecha  = document.getElementById('f-fecha').value;
+      const trat   = document.getElementById('f-tratamiento').value;
+
+      if (!nombre || !tel || !fecha || !trat) {
+        alert('Por favor completa los campos obligatorios (*)');
+        return;
+      }
+
+      const clientes = getClientes();
+      const data = {
+        nombre,
+        tel,
+        correo:     document.getElementById('f-correo').value.trim(),
+        fecha,
+        tratamiento: trat,
+        estado:     document.getElementById('f-estado').value,
+        notas:      document.getElementById('f-notas').value.trim(),
+      };
+
+      if (editingId) {
+        const idx = clientes.findIndex(c => c.id === editingId);
+        if (idx !== -1) clientes[idx] = { ...clientes[idx], ...data };
+      } else {
+        data.id = Date.now().toString(36) + Math.random().toString(36).slice(2);
+        data.creado = new Date().toISOString();
+        clientes.push(data);
+      }
+
+      saveClientes(clientes);
+      closeModal();
+      renderTable();
+      renderDashboard();
+    }
+
+    function editCliente(id) { openModal(id); }
+
+    function deleteCliente(id) {
+      if (!confirm('¿Eliminar este cliente? Esta acción no se puede deshacer.')) return;
+      saveClientes(getClientes().filter(c => c.id !== id));
+      renderTable();
+      renderDashboard();
+    }
+
+    // ── MENSAJES ──
+    const templates = {
+      pago:         (n) => `¡Hola ${n}! 🌸 Confirmamos la recepción de tu pago. Tu cita en Clínica Dermavive está agendada. ¡Te esperamos!`,
+      seguimiento:  (n) => `¡Hola ${n}! 💕 Han pasado 24 horas desde tu tratamiento. ¿Cómo te estás sintiendo? Recuerda seguir los cuidados indicados. Ante cualquier consulta, estamos aquí. — Dra. Meli`,
+      recordatorio: (n) => `¡Hola ${n}! 🌺 Te recordamos que mañana tienes tu cita en Clínica Dermavive. ¡Te esperamos! Ante cualquier cambio, avísanos con anticipación.`,
+      resena:       (n) => `¡Hola ${n}! 💛 Esperamos que estés encantada con tu resultado. Si tienes un momento, nos encantaría que compartieras tu experiencia en Instagram. ¡Tu opinión es muy importante para nosotras! — Dra. Meli`,
+    };
+
+    function renderMsgClientes() {
+      const sel = document.getElementById('msg-cliente-select');
+      const clientes = getClientes();
+      sel.innerHTML = '<option value="">— Selecciona un cliente —</option>' +
+        clientes.map(c => `<option value="${c.id}" data-tel="${c.tel}" data-nombre="${c.nombre}">${c.nombre} — ${c.tel}</option>`).join('');
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const sel     = document.getElementById('msg-cliente-select');
+      const tplKey  = document.getElementById('msg-template-select').value;
+      const opt     = sel.options[sel.selectedIndex];
+      const nombre  = opt?.dataset?.nombre || '[Nombre]';
+      document.getElementById('msg-preview').value = templates[tplKey](nombre);
+    }
+
+    document.addEventListener('change', e => {
+      if (e.target.id === 'msg-cliente-select' || e.target.id === 'msg-template-select') updatePreview();
+    });
+
+    function enviarWSP() {
+      const sel  = document.getElementById('msg-cliente-select');
+      const opt  = sel.options[sel.selectedIndex];
+      if (!opt || !opt.value) { alert('Selecciona un cliente primero.'); return; }
+      const tel  = opt.dataset.tel.replace(/\D/g, '');
+      const msg  = document.getElementById('msg-preview').value;
+      const url  = `https://wa.me/${tel.startsWith('56') ? tel : '56' + tel}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+
+    // ── HELPERS ──
+    function initials(nombre) {
+      return nombre.split(' ').slice(0,2).map(w => w[0]).join('').toUpperCase();
+    }
+
+    function formatFecha(iso) {
+      if (!iso) return '—';
+      const [y, m, d] = iso.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    function estadoBadge(e) {
+      const map = {
+        pagado:    ['badge-verde', '✅ Pagado'],
+        pendiente: ['badge-amber', '⏳ Pendiente'],
+        reservado: ['badge-azul',  '📅 Reservado'],
+      };
+      const [cls, txt] = map[e] || ['badge-rosa', e];
+      return `<span class="badge ${cls}">${txt}</span>`;
+    }
+  </script>
+
+</body>
+</html>
