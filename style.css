@@ -1,3 +1,24 @@
+.footer__admin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.08);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 5px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.3s, background 0.3s, border-color 0.3s;
+  text-decoration: none;
+}
+.footer__admin-link:hover {
+  color: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.12);
+}
 /* =============================================
    DERMAVIVE — Sistema de Diseño
    Paleta: Blanco / Negro / Rosa Palo
